@@ -1,242 +1,209 @@
-# 🏦 Industrial Credit Risk Assessment System
+# Credit Risk Analysis
 
-![Python](https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.54-red?style=for-the-badge&logo=streamlit)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?style=for-the-badge&logo=scikitlearn)
-![SHAP](https://img.shields.io/badge/Explainable-AI-success?style=for-the-badge)
-![SQLite](https://img.shields.io/badge/Database-SQLite-blue?style=for-the-badge&logo=sqlite)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+A machine learning-driven credit assessment system designed to predict loan default risk, estimate a credit score, and support faster lending decisions with explainable AI.
 
-An AI-powered **Credit Risk Assessment System** that predicts the probability of loan default using **Machine Learning**, applies **banking policy rules**, generates a **CIBIL-like credit score**, and provides **SHAP-based explainability** for transparent lending decisions.
+## Business Problem
 
----
+Banks and financial institutions need to evaluate whether an applicant is likely to default before approving a loan. A poor decision can increase credit losses, while rejecting creditworthy applicants reduces revenue and customer trust. This project combines machine learning, business rules, and model explainability to support safer and more transparent credit decisions.
 
-# 📌 Project Overview
+## Dataset
 
-Financial institutions must accurately evaluate the creditworthiness of loan applicants while maintaining transparency in their decision-making process.
+The project uses a loan default dataset containing customer and loan-related features such as:
 
-The **Industrial Credit Risk Assessment System** leverages **Machine Learning** to estimate the probability of loan default using applicant financial, employment, and credit information. The predicted probability is transformed into a **CIBIL-like credit score**, followed by rule-based validation using predefined banking policies to generate the final lending decision.
+- age
+- income
+- credit score
+- loan amount
+- tenure
+- interest rate
+- payment history
+- past defaults
+- employment details
 
-To improve trust and interpretability, the system integrates **SHAP (SHapley Additive Explanations)**, allowing users to understand the contribution of every feature toward the final prediction.
+The target variable is the default flag, used for supervised learning.
 
-The project demonstrates the practical application of **Artificial Intelligence** in the financial sector for **credit scoring**, **risk assessment**, and **decision support systems**.
+## Approach
 
----
+1. Load and preprocess the data
+2. Train a classification model for default prediction
+3. Estimate default probability for each applicant
+4. Convert the probability into a CIBIL-like score
+5. Apply business rules to produce a lending decision
+6. Explain predictions using SHAP
+7. Visualize the result in a Streamlit dashboard
 
-# ✨ Features
+## Decision System
 
-- 🤖 Machine Learning-based loan default prediction
-- 📈 Probability-based credit risk assessment
-- 💳 Automatic CIBIL-like score calculation
-- 🏦 Rule-based banking policy validation
-- 🧠 SHAP Explainable AI visualization
-- 📊 Interactive Streamlit dashboard
-- 🗂 SQLite assessment history storage
-- 📄 Professional PDF credit report generation
-- 📉 Model explainability using SHAP Waterfall plots
-- ⚡ Fast and user-friendly interface
+The application uses a practical risk-based decision policy:
 
----
+```python
+risk_prob = model.predict_proba(X)[0][1]
 
-# 🧠 System Workflow
-
-```text
-Applicant Details
-        │
-        ▼
-Data Preprocessing
-        │
-        ▼
-Machine Learning Model
-        │
-        ▼
-Default Probability
-        │
-        ▼
-CIBIL Score Calculation
-        │
-        ▼
-Bank Policy Validation
-        │
-        ▼
-Final Credit Decision
-        │
-        ▼
-SHAP Explainability
-        │
-        ▼
-PDF Report + Database Storage
+if risk_prob > 0.7:
+    decision = "Reject Loan"
+elif risk_prob > 0.4:
+    decision = "Manual Review"
+else:
+    decision = "Approve Loan"
 ```
 
----
+This improves the project by turning a simple probability output into a business-ready decision framework.
 
-# 🛠 Tech Stack
+## Risk Segmentation
 
-| Category | Technologies |
-|----------|--------------|
-| Language | Python |
-| Machine Learning | Scikit-learn |
-| Web Framework | Streamlit |
-| Data Processing | Pandas, NumPy |
-| Explainable AI | SHAP |
-| Visualization | Matplotlib |
-| Database | SQLite |
-| Report Generation | ReportLab |
-| Model Serialization | Joblib |
+The model output is also segmented into risk bands:
 
----
+- Low Risk: 0.0 to 0.3
+- Medium Risk: 0.3 to 0.7
+- High Risk: 0.7 to 1.0
 
-# ⚙️ Installation & Setup
+This helps financial teams interpret risk more meaningfully than a single binary outcome.
 
-## 1️⃣ Clone the Repository
+## Features
+
+- Credit default prediction using machine learning
+- Risk probability estimation
+- CIBIL-like score conversion
+- Business policy-based approval decisions
+- SHAP feature importance and explanation plots
+- Interactive Streamlit UI
+- SQLite history tracking
+- PDF credit report generation
+
+## Tech Stack
+
+- Python
+- Streamlit
+- Pandas
+- NumPy
+- scikit-learn
+- XGBoost
+- SHAP
+- Matplotlib
+- SQLite
+- ReportLab
+- Joblib
+
+## Model Comparison and Quality
+
+The project is designed to evaluate model quality beyond basic accuracy. Important metrics include:
+
+- Precision
+- Recall
+- F1-score
+- ROC-AUC
+- Confusion matrix
+- Cost of wrong prediction
+
+A robust model pipeline also uses cross-validation and hyperparameter tuning to reduce variance and improve generalization.
+
+## Explainability
+
+The project uses SHAP to provide:
+
+- feature importance ranking
+- contribution of each variable to the prediction
+- individual explanation for a specific applicant
+
+This helps translate the model from a black box into an explainable decision support tool.
+
+## Project Structure
+
+```text
+credit-risk-analysis/
+├── app.py
+├── train_model.py
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── Loan_default.csv
+├── credit_model.pkl
+├── bank_logo.png
+├── cleardb.py
+├── credit_history.db
+└── train_model.ipynb
+```
+
+## How to Run
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/abhinay/credit-risk-analysis.git
-
+git clone https://github.com/Abhinay961/credit-risk-analysis.git
 cd credit-risk-analysis
 ```
 
----
+### 2. Create a virtual environment
 
-## 2️⃣ Create a Virtual Environment
-
-### macOS / Linux
+#### macOS / Linux
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### Windows
+#### Windows
 
 ```bash
 python -m venv .venv
-
 .venv\Scripts\activate
 ```
 
----
-
-## 3️⃣ Install Dependencies
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 4️⃣ Run the Application
+### 4. Run the app
 
 ```bash
 streamlit run app.py
 ```
 
-The application will open automatically in your browser.
+## Model Training
 
----
+To retrain the model with XGBoost, cross-validation, and hyperparameter tuning:
 
-# 📊 Model Explainability
-
-The system uses **SHAP (SHapley Additive Explanations)** to interpret every prediction.
-
-For each applicant, SHAP identifies:
-
-- Features increasing default probability
-- Features reducing default probability
-- Overall contribution of every feature
-- Transparent reasoning behind the final prediction
-
-This improves the trustworthiness of AI-assisted lending decisions.
-
----
-
-# 📄 Credit Report Generation
-
-After every assessment, the system automatically generates a downloadable PDF report containing:
-
-- Applicant Name
-- Default Probability
-- Generated CIBIL Score
-- Final Credit Decision
-- Executive Summary
-- System-generated Recommendation
-
----
-
-# 💳 Credit Decision Logic
-
-The final recommendation combines both:
-
-- Machine Learning prediction
-- Banking policy validation
-
-Possible outcomes include:
-
-- 🟢 Low Risk — Approved
-- 🟡 Medium Risk — Approved with Higher Interest
-- 🟠 High Risk — Low Credit Limit
-- 🔴 Very High Risk — Rejected
-
----
-
-# 🎯 Use Cases
-
-- Commercial Banks
-- NBFCs
-- FinTech Companies
-- Loan Approval Systems
-- Credit Risk Assessment
-- AI-powered Decision Support
-- Financial Risk Analytics
-- Academic Research
-
----
-
-# 🚀 Future Improvements
-
-- Real-time Banking API Integration
-- Cloud Database Support
-- Deep Learning Models
-- User Authentication & Authorization
-- Role-based Dashboard
-- Docker Deployment
-- Cloud Deployment (AWS / Azure / GCP)
-- REST API Support
-- Batch Credit Assessment
-
----
-
-# 📂 Project Structure
-
-```text
-credit-risk-analysis/
-│
-├── app.py
-├── credit_model.pkl
-├── Loan_default.csv
-├── requirements.txt
-├── bank_logo.png
-├── credit_history.db
-│
-└── README.md
+```bash
+python train_model.py
 ```
 
----
+This script trains a tuned XGBoost classifier and saves the optimized model as `credit_model.pkl`.
 
-# 👨‍💻 Author
+## Results
 
-### **Abhinay Mishra**
+This project is designed to provide a practical credit risk decision workflow with transparent output. The final system balances:
 
-Full Stack Developer | Machine Learning Enthusiast | AI & Web3 Learner
+- predictive accuracy
+- business risk logic
+- explainability
+- user-friendly decision support
 
-🔗 GitHub:
-https://github.com/abhinay
+## Business Insights
 
-Repository:
-https://github.com/abhinay/credit-risk-analysis
+The system helps teams identify:
 
----
+- applicants likely to default
+- applicants needing manual review
+- low-risk applicants suitable for approval
 
-## ⭐ Support
+This supports better credit management and reduces unnecessary losses.
 
-If you found this project helpful, consider giving it a **⭐ Star** on GitHub. It helps others discover the project and supports future development.
+## Future Improvements
+
+- Add more advanced feature engineering
+- Improve model performance with additional ensemble models
+- Add a dashboard for executive reporting
+- Connect real credit bureau APIs
+- Add user authentication and admin access
+- Deploy to cloud hosting
+- Convert to a production API backend
+
+## Author
+
+Abhinay Mishra
+
+## License
+
+This project is for portfolio and educational use.
